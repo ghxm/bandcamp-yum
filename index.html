@@ -33,9 +33,25 @@
 </head>
 
 <body>
+
+
+    <div id="warning-header">
+        <h4>Warning</h4>
+        <p>This tool uses corsproxy.io to send requests to GitHub.</p>
+        <p>Use at your own risk and don't overuse without reason to avoid it getting blocked. Thanks.</p>
+    </div>
+
+    <div id="info-header">
+        <h4>Info</h4>
+        <p>This tool bulk-checks Bandcamp yum codes.</p>
+        <p id ="info-js">JavaScript needs to be enabled for the tool to work.</p>
+    </div>
+
     <!--- Big text box for bandcamp codes -->
-    <div>
-        <textarea id="bandcamp" cols="30" rows="10"></textarea>
+    <div style="margin-top:2em;">
+        <h4>Yummy!</h4>
+
+        <textarea id="bandcamp" cols="30" rows="10" placeholder="Enter one Bandcamp code per line..."></textarea>
     </div>
 
 
@@ -52,6 +68,10 @@
 
 
     <script>
+
+        // remove js info
+        var infoJs = document.getElementById("info-js");
+        infoJs.style.display = "none";
 
         // polyfill for trim
         if (typeof (String.prototype.trim) === "undefined") {
