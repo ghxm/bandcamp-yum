@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bandcamp yum check</title>
+    <title>Bandcamp Yum Check</title>
 
     <style>
         .loader {
@@ -78,19 +78,28 @@
         }
 
         async function checkCode(code) {
-            const response = await fetch('https://corsproxy.io/?url=' + encodeURIComponent('https://bandcamp.com/api/codes/1/verify'), {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    'is_corp': true,
-                    'code': code
-                })
-            });
+            try {
+                const response = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://bandcamp.com/api/codes/1/verify'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'is_corp': true,
+                        'code': code
+                    })
+                });
 
-            const jsonResponse = await response.json();
-            return jsonResponse;
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const jsonResponse = await response.json();
+                return jsonResponse;
+            } catch (error) {
+                console.error("Error in fetch request:", error);
+                return null;
+            }
         }
 
         var bandcamp = document.getElementById("bandcamp");
@@ -117,29 +126,25 @@
                     await new Promise(r => setTimeout(r, 5000));
                 }
 
-                try {
-                    const jsonResponse = await checkCode(bandcampArray[i]);
+                const jsonResponse = await checkCode(bandcampArray[i]);
 
-                    if (jsonResponse.ok) {
-                        validCodesFound = true;
+                if (jsonResponse && jsonResponse.ok) {
+                    validCodesFound = true;
 
-                        if (msgGood.style.display === "none") {
-                            msgGood.style.display = "block";
-                        }
-
-                        var li = document.createElement("li");
-                        var a = document.createElement("a");
-                        a.setAttribute("href", "https://bandcamp.com/yum?code=" + bandcampArray[i]);
-                        a.appendChild(document.createTextNode(bandcampArray[i]));
-                        li.appendChild(a);
-                        validList.appendChild(li);
-                    } else if (jsonResponse.errors && jsonResponse.errors.some(error => error.reason === "invalid.already_redeemed")) {
-                        console.log("Code already redeemed: " + bandcampArray[i]);
-                    } else {
-                        console.log("Invalid code: " + bandcampArray[i]);
+                    if (msgGood.style.display === "none") {
+                        msgGood.style.display = "block";
                     }
-                } catch (error) {
-                    console.error("Error processing code: ", bandcampArray[i], error);
+
+                    var li = document.createElement("li");
+                    var a = document.createElement("a");
+                    a.setAttribute("href", "https://bandcamp.com/yum?code=" + bandcampArray[i]);
+                    a.appendChild(document.createTextNode(bandcampArray[i]));
+                    li.appendChild(a);
+                    validList.appendChild(li);
+                } else if (jsonResponse && jsonResponse.errors && jsonResponse.errors.some(error => error.reason === "invalid.already_redeemed")) {
+                    console.log("Code already redeemed: " + bandcampArray[i]);
+                } else {
+                    console.log("Invalid code: " + bandcampArray[i]);
                 }
             }
 
