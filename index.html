@@ -84,6 +84,7 @@
         async function checkCode(code) {
             return fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://bandcamp.com/api/codes/1/verify'), {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
