@@ -82,7 +82,7 @@
 
         // function to check bandcamp code via api
         async function checkCode(code) {
-            return fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://bandcamp.com/api/codes/1/verify'), {
+            return fetch('https://corsproxy.io/?url=' + encodeURIComponent('https://bandcamp.com/api/codes/1/verify'), {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: {
