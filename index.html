@@ -37,7 +37,7 @@
 
     <div id="warning-header">
         <h4>Warning</h4>
-        <p>This tool uses corsproxy.github.io to send requests to Bandcamp.</p>
+        <p>This tool uses api.allorigins.win to send requests to Bandcamp.</p>
         <p>Use at your own risk and don't overuse without reason to avoid it getting blocked. Thanks.</p>
     </div>
 
@@ -82,7 +82,7 @@
 
         // function to check bandcamp code via api
         async function checkCode(code) {
-            return fetch('https://corsproxy.github.io/?' + encodeURIComponent('https://bandcamp.com/api/codes/1/verify'), {
+            return fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://bandcamp.com/api/codes/1/verify'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
