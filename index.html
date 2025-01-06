@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bandcamp Yum Check</title>
+    <title>Bandcamp yum check</title>
 
     <style>
         .loader {
@@ -34,7 +34,7 @@
 
     <div id="warning-header">
         <h4>Warning</h4>
-        <p>This tool uses a public CORS proxy to send requests to Bandcamp.</p>
+        <p>This tool requires CORS restrictions to be disabled for it to work. You can use a browser extension or disable CORS manually. If you know of a free and reliable CORS proxy, let us know!</p>
         <p>Use at your own risk and avoid excessive use to prevent blocks.</p>
     </div>
 
@@ -66,11 +66,10 @@
         }
 
         async function checkCode(code) {
-            const proxyUrl = 'https://corsproxy.io/?';
             const targetUrl = 'https://bandcamp.com/api/codes/1/verify';
 
             try {
-                const response = await fetch(`${proxyUrl}url=${encodeURIComponent(targetUrl)}`, {
+                const response = await fetch(targetUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
